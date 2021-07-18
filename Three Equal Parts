@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> threeEqualParts(vector<int>& A) {
+        int n = A.size();
+        
+        int Ones = accumulate(A.begin(), A.end(), 0);
+        
+        if (Ones == 0) return {0, n - 1};
+        if (Ones % 3 != 0) return {-1, -1};
+
+        int OneThird = Ones/3;
+        int p[3];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if(A[i] == 1) {
+                if(count % OneThird == 0) {
+                    p[count/OneThird] = i;
+                }
+                count++;
+            } 
+        }
+        
+        while (p[2] != n) {
+            if (A[p[0]] != A[p[1]] || A[p[1]] != A[p[2]]) 
+                return {-1,-1};
+            p[0]++; p[1]++; p[2]++;
+        }
+        
+        return {p[0]-1, p[1]};        
+    }
+};
